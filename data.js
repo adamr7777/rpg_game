@@ -9,6 +9,8 @@ const characterData = {
        avatar: 'images/wizard.png',
        health: 60,
        diceCount: 3,
+       currentDiceScore: [],
+       dead: false,
     },
     monster: {
        id: 'monster',
@@ -16,6 +18,8 @@ const characterData = {
        avatar: 'images/orc.png',
        health: 10,
        diceCount: 1,
+       currentDiceScore: [],
+       dead: false,
     },
  }
 

@@ -1,12 +1,19 @@
 
 
 
+import {characterData} from './data.js'
 
-function getDicePointArray(diceCount) {
+
+
+export function getDicePointArray(diceCount) {
     return new Array(diceCount).fill(0).map(function() {
        return Math.floor(Math.random()*6) + 1
     })
  }
 
- export {getDicePointArray};
  
+
+ export function getDicePlaceholderHtml(diceCount) {
+   return new Array(diceCount).fill(`<div class="placeholder-dice"></div>`).join('');
+}
+
