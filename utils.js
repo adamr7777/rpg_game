@@ -17,3 +17,5 @@ export function getDicePointArray(diceCount) {
    return new Array(diceCount).fill(`<div class="placeholder-dice"></div>`).join('');
 }
 
+
+export const getHealthPerc = (maxHealth, health)=> 100 * health / maxHealth

@@ -1,44 +1,57 @@
 
 
 
-import {getDicePointArray, getDicePlaceholderHtml} from './utils.js'
+import {getDicePointArray, getDicePlaceholderHtml, getHealthPerc} from './utils.js'
 
 
-const getHealthPerc = (maxHealth, health)=> 100 * health / maxHealth
 
 
-function Character(data) {
-    Object.assign(this, data);
+class Character {
+   constructor(data) {
+      Object.assign(this, data);
 
-   this.diceArray = getDicePlaceholderHtml(this.diceCount);
+      this.diceArray = getDicePlaceholderHtml(this.diceCount);
 
-   this.maxHealth = this.health;
- 
+      this.maxHealth = this.health;
+   }
+   
  
    
-   this.getDiceHtml =  function(diceCount) {
+   getDiceHtml() { 
          this.currentDiceScore = getDicePointArray(this.diceCount);       
          this.diceArray = this.currentDiceScore.map((item)=> `<div class="dice">${item}</div>`)
             .join('');
    }
  
-   this.getCharacterHtml = function() {
+   getCharacterHtml() {
       const {id, name, avatar, health, diceCount, diceArray} = this;
       const diceHtml = this.getDiceHtml(diceCount);
+      const healthBar = this.getHealthBarHtml();
        return ` 
        <div class="character-card">
           <h4 class="name">${name}</h4>
           <img class="avatar" src='${avatar}'/>
           <p class="health">health:<b>${health}</b></p>
+          ${healthBar}
           <div class="dice-container">
              ${diceArray}
           </div>
        </div>`
     }
 
+   getHealthBarHtml() {
+      const percent = getHealthPerc(this.maxHealth, this.health)
+
+      return `<div class="health-bar-outer">
+                  <div class="health-bar-inner ${percent <=25 ? 'danger' : ''}" 
+                     style="width: ${percent}%;">
+                  </div>
+               </div>`
+    }
+
    
 
-   this.takeDamage = function(attackScoreArray) {
+   takeDamage(attackScoreArray) {
       const totalAttackScore = attackScoreArray.reduce((total, current)=> total + current);
       this.health -= totalAttackScore; 
       if (this.health <= 0) {
